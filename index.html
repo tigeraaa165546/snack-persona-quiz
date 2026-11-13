@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>零食人格大揭秘，你属于哪一类</title>
+<style>
+  :root{
+    --acc:#f25c26; --acc2:#ff9a5c; --gold:#a8762c;
+    --bg1:#fff6ee; --bg2:#ffe8d6;
+    --ink:#5a2410; --sub:#a87f6c; --card:#ffffff; --line:#ffd9bd;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);
+    background:linear-gradient(160deg,var(--bg1),var(--bg2));min-height:100vh}
+  .wrap{max-width:430px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column;padding:18px 18px 28px}
+
+  /* ---------- 首页 ---------- */
+  .hero{text-align:center;padding:26px 8px 18px}
+  .hero .emoji{font-size:54px;line-height:1}
+  .hero h1{font-size:25px;line-height:1.45;margin:14px 4px 8px;font-weight:800}
+  .hero h1 .hl{color:var(--acc)}
+  .hero .sub{font-size:14px;color:var(--sub);margin-bottom:18px;line-height:1.7}
+  .tags{display:flex;flex-direction:column;gap:9px;margin:6px 4px 20px}
+  .tag{background:var(--card);border-radius:14px;padding:12px 14px;font-size:14px;text-align:left;
+    box-shadow:0 2px 10px rgba(242,92,38,.10);border:1px solid var(--line)}
+  .tag b{color:var(--acc)}
+  .btn{display:block;width:100%;padding:16px;border:none;border-radius:999px;font-size:18px;font-weight:700;
+    color:#fff;background:linear-gradient(90deg,var(--acc),var(--acc2));cursor:pointer;
+    box-shadow:0 6px 18px rgba(242,92,38,.30);letter-spacing:2px}
+  .btn:active{transform:scale(.97)}
+  .footnote{text-align:center;font-size:12px;color:#c9a58e;margin-top:14px;line-height:1.7}
+  .deco{margin-top:22px;font-size:13px;color:#dbb29a;text-align:center;line-height:1.9}
+
+  /* ---------- 答题 ---------- */
+  .bar{height:8px;background:#ffd4b3;border-radius:99px;overflow:hidden;margin:10px 0 6px}
+  .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px;transition:width .3s}
+  .count{text-align:right;font-size:12px;color:var(--sub);margin-bottom:10px}
+  .q{background:var(--card);border-radius:18px;padding:20px 16px;font-size:17px;font-weight:700;line-height:1.6;
+    box-shadow:0 4px 14px rgba(242,92,38,.12);margin-bottom:16px}
+  .q .num{display:inline-block;font-size:12px;font-weight:600;color:#fff;background:var(--acc2);
+    border-radius:99px;padding:3px 10px;margin-bottom:10px}
+  .opts{display:flex;flex-direction:column;gap:11px}
+  .opt{background:var(--card);border:1.5px solid var(--line);border-radius:15px;padding:14px 15px;font-size:15px;
+    line-height:1.55;text-align:left;cursor:pointer;transition:.15s;color:var(--ink)}
+  .opt:active{background:var(--bg1);border-color:var(--acc);transform:scale(.98)}
+
+  /* ---------- 结果 ---------- */
+  .result{text-align:center;padding-top:22px}
+  .result .emoji{font-size:56px}
+  .result .name{font-size:24px;font-weight:800;color:var(--acc);margin-top:10px}
+  .result .tagline{font-size:15px;color:var(--gold);margin-top:6px;font-weight:700}
+  .card{background:var(--card);border-radius:18px;padding:18px 16px;text-align:left;margin-top:16px;
+    box-shadow:0 4px 14px rgba(242,92,38,.12);font-size:14px;line-height:1.85}
+  .card h3{font-size:13px;color:var(--acc);margin-bottom:8px;letter-spacing:1px}
+  .card.fix{border-left:4px solid var(--gold)}
+  .card.fix h3{color:var(--gold)}
+  .stat{font-size:12px;color:var(--sub);margin-top:14px;line-height:1.7}
+  .share{margin-top:16px;padding:14px;border:none;border-radius:999px;font-size:15px;font-weight:700;
+    color:var(--acc);background:#fff;border:1.5px solid var(--acc);cursor:pointer;width:100%}
+  .again{margin-top:10px}
+  .hidden{display:none}
+  @keyframes pop{0%{transform:scale(.8);opacity:0}100%{transform:scale(1);opacity:1}}
+  .pop{animation:pop .35s ease}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- 首页 -->
+  <section id="home">
+    <div class="hero">
+      <div class="emoji">🍿</div>
+      <h1>零食人格大揭秘<br><span class="hl">你属于哪一类</span></h1>
+      <div class="sub">辣条、果冻、话梅、牛肉干——<br>你的快乐是哪种味道</div>
+    </div>
+    <div class="tags">
+      <div class="tag">✅ <b>口味立场</b>｜甜咸辣淡，你是哪一党</div>
+      <div class="tag">✅ <b>干饭习惯</b>｜囤货、独享、分享欲全暴露</div>
+      <div class="tag">✅ <b>十种零食人格</b>｜从爆米花到冰棍对号入座</div>
+      <div class="tag">✅ <b>食用建议</b>｜这么吃，快乐加倍</div>
+    </div>
+    <button class="btn" onclick="start()">点击测试 →</button>
+    <div class="footnote">趣味测试仅供娱乐，不构成任何健康建议</div>
+    <div class="deco">32 道零食场景题 · 10 种人格 · 约 3 分钟<br>答完记得回评论区报零食 👀</div>
+  </section>
+
+  <!-- 答题 -->
+  <section id="quiz" class="hidden">
+    <div class="bar"><i id="pbar"></i></div>
+    <div class="count"><span id="cnow">1</span> / 32</div>
+    <div class="q"><span class="num" id="qnum"></span><br><span id="qtext"></span></div>
+    <div class="opts" id="opts"></div>
+  </section>
+
+  <!-- 结果 -->
+  <section id="res" class="hidden">
+    <div class="result">
+      <div class="emoji pop" id="remoji">🍿</div>
+      <div class="name pop" id="rname"></div>
+      <div class="tagline pop" id="rtag"></div>
+      <div class="card"><h3>🍿 零食人格档案</h3><div id="rbody"></div></div>
+      <div class="card"><h3>🛒 食用建议（这么吃更对味）</h3><div id="rstep"></div></div>
+      <div class="card fix"><h3>⚠️ 你的人格盲点</h3><div id="rwarn"></div></div>
+      <div class="stat" id="rstat"></div>
+      <button class="share" onclick="copyRes()">📋 复制人格，去评论区报零食</button>
+      <button class="share again" onclick="location.reload()">🔄 再测一次（换个口味？）</button>
+      <div class="footnote">趣味测试仅供娱乐，不构成任何健康建议</div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+const TYPES = {
+ A:{e:"🍿",n:"爆米花型",t:"人多才香，气氛担当",
+    b:"你是零食界的气氛组：吃的顺序是先分再吃，快乐必须摊薄到每个人身上才叫到位。试吃摊、聚会、电影开场，哪里有动静哪里有你。你的快乐自带扩音器——别人吃的是零食，你吃的是场子。",
+    s:"下次聚会由你开单：报上你的「人气套餐」，价格摊下来人均不到十块，气氛直接拉满。",
+    w:"热闹是你的主场，但也容易只吃了个热闹——人群散了你才发现，自己想吃什么，一直没顾上想。"},
+ B:{e:"🌶️",n:"辣条型",t:"够劲才过瘾的浓人",
+    b:"你的口味像你的性格：淡了等于没吃。辣条、魔芋爽、怪味豆，别人怕的「太刺激」正是你的及格线。你不装、不绕，喜欢就是喜欢，够劲就是正义——跟你处得来的人，都吃过你分的那口辣。",
+    s:"把你的私藏辣味清单整理成「浓度分级表」发出去，从一星到五星——你会收获一批跟着你吃的人。",
+    w:"浓人的代价是容错低：太淡的入不了眼，太温和的被你看不上。偶尔试试不辣的那口，有些温柔你还没尝过。"},
+ C:{e:"🍫",n:"巧克力型",t:"一口回血的情绪充电宝",
+    b:"你的零食是拿来哄人的——主要是哄自己。加班、emo、天冷、委屈，你都有对应的那块甜。你不追求最贵，只追求「吃了会叹一口气说舒服」。你是朋友圈里第一个递糖的人，也是最会接住别人情绪的人。",
+    s:"在抽屉常备一个「急救甜」：只留给真正难的那天吃——它会在你快撑不住的时候，替你拉一把。",
+    w:"你太习惯用甜去盖情绪了，久了会分不清：你是想吃糖，还是不想面对那件事。先解决事，再奖励自己。"},
+ D:{e:"🥜",n:"原味坚果型",t:"清醒克制的养生在逃选手",
+    b:"你吃零食像做健康管理：配料表、保质期、每日摄入量，你心里有一张表。别人炫辣条你剥核桃，别人快乐水你泡茶。你不是无趣，你只是长期清醒——而清醒的人，快乐反而更持久。",
+    s:"把你的「干净零食清单」做成一份分享帖：配料表短于五行才算过关——这种清单全网都缺。",
+    w:"克制久了容易紧绷：偶尔一次「乱吃」，你会有负罪感。记住，零食的本职是快乐，不是考核。"},
+ E:{e:"🍮",n:"果冻型",t:"软萌Q弹，可爱但没攻击性",
+    b:"你的零食人格是软的：包装可爱、入口温柔、不跟人争。你的抽屉是全办公室最想翻的一个，因为永远有那种「吃了会笑出来」的小东西。你用软软的方式把日子过得有弹性——捏扁了，还能弹回来。",
+    s:"给你身边那个「最近有点硬」的人递一颗软糖：一句话不用说，软的东西会替你说话。",
+    w:"软是你的温柔，也容易被拿捏：不好意思拒绝，零食分着分着就剩不下自己那份。软归软，底线要弹回来。"},
+ F:{e:"🥔",n:"薯片型",t:"咔嚓上头，根本停不下来",
+    b:"你的零食哲学是「一声脆响，万事皆忘」。追剧、聊天、发呆，只要咔嚓声不停，快乐就不断电。你是那种买一包吃三口、塞进包里再开一包的人——上头不是缺点，是你把快乐调成了连播模式。",
+    s:"把你踩过的「上头零食」做成榜单：第一名封神、最后一个拉黑——这种真话榜单最招人收藏。",
+    w:"上头的另一面是停不下来：嘴停了心还空着。有时候你不是饿，是剧不好看——换个剧比换包薯片管用。"},
+ G:{e:"🍬",n:"话梅型",t:"酸涩回甘的回忆杀",
+    b:"你的零食自带年代感：话梅、陈皮、酸三色，别人嫌老派，你吃的是回忆。一口下去，小卖部的玻璃柜、放学路上的夕阳全回来了。你不追新，你恋旧——念旧的人，味觉就是时间机。",
+    s:"复刻一份「童年零食套餐」，寄给那个一起长大的老友——附一句「还记得吗」，比任何礼物都重。",
+    w:"回味是你的宝藏，也可能是你的滤镜：不是所有旧东西都值得留，有些人也是。该过期的，就让它过期。"},
+ H:{e:"🫧",n:"口香糖型",t:"社交嘴替，永远保鲜",
+    b:"你的零食是社交货币：包里常备一人一颗，话题冷场你就递上去。你嘴甜、会安利、消息灵通，吃什么不重要，重要的是「一起」。你像口香糖——保新鲜、不粘人，但人人都愿意跟你待一会儿。",
+    s:"把包里那颗糖升级成「开场白道具」：递出去时配一个具体的问候——你的社交天赋会再加一档。",
+    w:"你太会照顾场面了，久了自己那口想吃的反而排在最后。别只会当嘴替，偶尔也让人猜猜你想吃什么。"},
+ I:{e:"🥩",n:"风干牛肉干型",t:"硬核实在，抗饿耐用",
+    b:"你的零食观就一个字：实在。花里胡哨的不如一块顶饱的，情绪价值不如蛋白质。你买零食看分量、看克数、看性价比，吃完真的能干活。你是零食界的实干派——朋友搬家、加班赶工，你包里的硬货最抢手。",
+    s:"配一包「应急硬货」常驻包底：某天有人饿到走不动时，你就是那个被记住的人。",
+    w:"你太讲实用了，久了自己都忘了：零食不是任务，是奖励。偶尔来点没用的甜，天不会塌。"},
+ J:{e:"🍦",n:"冰棍型",t:"透心凉，直球爽快人",
+    b:"你是零食界的直球选手：喜欢就买，不爽就说，吃个零食也要「凉快到底」。你没那么多仪式感，快乐来得干脆，走得也干脆。别人还在纠结口味，你一口已经下肚——和你相处不累，因为一切都摆在明面上。",
+    s:"热天请全组吃一次冰：花不了几个钱，「这人真爽快」的印象会记很久。",
+    w:"直球的代价是少回味：来得快去得快，有些好东西你还没咂摸出味就咽了。偶尔慢一口——甜是从后半段开始的。"}
+};
+
+const QS = [
+ ["打开一部新剧，你的标配零食是：",
+  ["爆米花，仪式感拉满","A"],
+  ["薯片，咔嚓到剧终","F"],
+  ["巧克力，甜着看更入戏","C"],
+  ["辣条，没点劲看不进去","B"]],
+ ["走进超市零食区，你的路线是：",
+  ["直奔辣味区","B"],
+  ["哪里热闹去哪里，试吃摊必逛","A"],
+  ["先看分量，实在才买","I"],
+  ["直奔童年那排货架","G"]],
+ ["你的零食囤货风格是：",
+  ["成箱囤抗饿的，实在","I"],
+  ["上新就买，买了一堆吃不完","F"],
+  ["只囤每日坚果这种，克制","D"],
+  ["囤的全是小时候吃过的小卖部同款","G"]],
+ ["深夜饿了，你摸黑吃的是：",
+  ["一块巧克力，哄睡","C"],
+  ["冰棍，透心凉再睡","J"],
+  ["撕一包牛肉干，顶饱","I"],
+  ["薯片，一开口就停不下来","F"]],
+ ["朋友来家里，你拿什么招待：",
+  ["爆米花，边吃边聊才热闹","A"],
+  ["一人一颗糖，话题马上开","H"],
+  ["硬货伺候，管饱","I"],
+  ["果冻，可爱又没负担","E"]],
+ ["你的口味立场是：",
+  ["无辣不欢","B"],
+  ["清淡本命","D"],
+  ["偏爱带回忆感的味道","G"],
+  ["甜是底线","C"]],
+ ["看到零食上新，你会：",
+  ["第一时间买来当谈资","H"],
+  ["必须尝鲜，一吃就上头","F"],
+  ["看看配料再说","D"],
+  ["逛一圈还是拿老款式","G"]],
+ ["办公室抽屉里的私藏是：",
+  ["巧克力，下午三点救命","C"],
+  ["薯片，咔嚓两声接着干","F"],
+  ["每日坚果，自律人设","D"],
+  ["肉干，加班顶饿","I"]],
+ ["你买零食更看重：",
+  ["味道够不够劲","B"],
+  ["包装好不好看，可爱就行","E"],
+  ["配料干不干净","D"],
+  ["顶不顶饱","I"]],
+ ["旅途中你包里装的是：",
+  ["嚷着分给大家的那袋","A"],
+  ["多带一包，路上交个朋友","H"],
+  ["软软的小蛋糕，甜甜垫一口","E"],
+  ["一包童年味道，路上慢慢回味","G"]],
+ ["别人伸手抢你零食，你的反应是：",
+  ["直球拒绝：自己买去","J"],
+  ["无所谓，热闹一起才香","A"],
+  ["嘟囔一句，还是让TA吃了","E"],
+  ["严肃警告：辣条概不外借","B"]],
+ ["减脂期你的零食姿态是：",
+  ["坚果控量，按计划执行","D"],
+  ["魔芋果冻，零负担","E"],
+  ["找低糖甜味替代，哄住自己","C"],
+  ["魔芋爽续命，无辣不欢的人不讲这个","B"]],
+ ["童年零食回忆杀，你最先想起：",
+  ["酸酸甜甜的梅子粉","G"],
+  ["课间分着吃的热闹","A"],
+  ["干脆面，捏碎撒料包摇一摇","F"],
+  ["大白兔，甜到心里","C"]],
+ ["吃零食你更喜欢：",
+  ["一群人抢着吃才香","A"],
+  ["边吃边哼歌，自娱自乐","H"],
+  ["边追剧边吃，停不下来","F"],
+  ["心情不好时当药吃","C"]],
+ ["你的购物车里，零食占比是：",
+  ["扛饿为主，主食的编外部队","I"],
+  ["健康、低卡、配料表干净","D"],
+  ["越重口越好","B"],
+  ["可可爱爱的占一半","E"]],
+ ["便利店冰柜前，你会：",
+  ["直接拿冰棍，不犹豫","J"],
+  ["抓个甜筒，先补情绪价值","C"],
+  ["拿瓶无糖的，保持清醒","D"],
+  ["顺一颗口香糖结账，社交备用","H"]],
+ ["吃到特别好吃的，你会：",
+  ["立刻张罗大家一起点","A"],
+  ["发群里安利一圈","H"],
+  ["私戳最好的朋友：这个超可爱","E"],
+  ["一口气囤它三箱，上头了","F"]],
+ ["快过期的零食，你会：",
+  ["舍不得扔，赶在之前吃完","G"],
+  ["看日期，临了果断扔","D"],
+  ["不太讲究，够味就行","B"],
+  ["喊群里拼单，一起囤临期","H"]],
+ ["你更接近哪种吃相：",
+  ["一口一个，利索","J"],
+  ["小口小口，斯文","E"],
+  ["咔嚓咔嚓，动静很大","F"],
+  ["无辣不欢，越吃越上头","B"]],
+ ["零食预算超了，你会：",
+  ["先吃了再说，快乐要紧","J"],
+  ["立刻收手，回归正餐","D"],
+  ["又囤了一批童年款，戒不掉","G"],
+  ["转买扛饿大包装，讲性价比","I"]],
+ ["加班到深夜，你撕开的是：",
+  ["牛肉干，扛住这一班","I"],
+  ["巧克力，先回血再干","C"],
+  ["一包薯片配完这个班","F"],
+  ["冰可乐，透心凉醒神","J"]],
+ ["聚会你带的零食是：",
+  ["爆米花大桶，气氛组就位","A"],
+  ["人手一颗的开场糖","H"],
+  ["硬核大礼包，管饱","I"],
+  ["果冻拼盘，老少通吃","E"]],
+ ["有人说不吃零食省省钱，你会：",
+  ["回怼：快乐无价","J"],
+  ["理直气壮：我吃的都是健康的","D"],
+  ["塞给TA一颗，顺便唠两句","H"],
+  ["小时候穷，长大了补回来","G"]],
+ ["电影院的必备组合是：",
+  ["爆米花+可乐，标配仪式","A"],
+  ["冰品，越凉越带劲","J"],
+  ["巧克力，甜着看完","C"],
+  ["带壳的也不怕，咔嚓就完事","F"]],
+ ["你的零食柜收纳是：",
+  ["按包装色排列，可可爱爱","E"],
+  ["按保质期排队，先进先出","D"],
+  ["堆成一座小山，翻找靠缘分","F"],
+  ["干货区糖区怀旧区，分门别类","G"]],
+ ["网购零食后，你的评价风格是：",
+  ["写小作文安利，嘴替本替","H"],
+  ["好吃就回购，懒得写","J"],
+  ["辣度不达标必写差评","B"],
+  ["晒图九宫格，可可爱爱","E"]],
+ ["冬天和夏天，你的零食切换是：",
+  ["都吃冰的，直球不变","J"],
+  ["冬天炒货夏天梅子，跟着季节走","G"],
+  ["怎么热闹怎么来，一呼百应","A"],
+  ["天一冷就找甜的续命","C"]],
+ ["给远方朋友寄零食，你会寄：",
+  ["一包对方小时候的味道","G"],
+  ["硬核大礼包，实在","I"],
+  ["附一张手写卡片当嘴替","H"],
+  ["可可爱爱的限定包装款","E"]],
+ ["零食和正餐打架，你站：",
+  ["正餐是正餐，零食是零食","D"],
+  ["零吃到位了，饭都可以省","I"],
+  ["够味的零食，照样当饭","B"],
+  ["看心情，今天甜食当家","C"]],
+ ["看到有人吃你童年的那款零食，你会：",
+  ["一秒回到小卖部门口","G"],
+  ["上去搭话，瞬间熟络","A"],
+  ["拍下来发群里当话题","H"],
+  ["心里一暖，也拿了一包","C"]],
+ ["你的零食口头禅是：",
+  ["加辣，多加","B"],
+  ["这个配料表很干净","D"],
+  ["开吃开吃，人多才香","A"],
+  ["冰的，来一口？","J"]],
+ ["用一个词形容你的零食人格：",
+  ["热闹","A"],
+  ["治愈","C"],
+  ["回味","G"],
+  ["爽快","J"]]
+];
+
+let idx = 0, score = {};
+const $ = id => document.getElementById(id);
+
+function start(){
+  idx = 0; score = {};
+  $("home").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  render();
+}
+function render(){
+  const q = QS[idx];
+  $("qnum").textContent = "第 " + (idx+1) + " 题";
+  $("qtext").textContent = q[0];
+  $("cnow").textContent = idx+1;
+  $("pbar").style.width = (idx/32*100) + "%";
+  const box = $("opts"); box.innerHTML = "";
+  q.slice(1).forEach(([text,key])=>{
+    const b = document.createElement("button");
+    b.className = "opt"; b.textContent = text;
+    b.onclick = ()=>pick(key);
+    box.appendChild(b);
+  });
+  window.scrollTo(0,0);
+}
+function pick(key){
+  score[key] = (score[key]||0) + 1;
+  idx++;
+  if(idx < QS.length) render(); else show();
+}
+function show(){
+  $("quiz").classList.add("hidden");
+  $("res").classList.remove("hidden");
+  const order = ["A","B","C","D","E","F","G","H","I","J"];
+  let best = order[0];
+  order.forEach(k=>{ if((score[k]||0) > (score[best]||0)) best = k; });
+  const t = TYPES[best];
+  $("remoji").textContent = t.e;
+  $("rname").textContent = t.n;
+  $("rtag").textContent = "—— " + t.t + " ——";
+  $("rbody").textContent = t.b;
+  $("rstep").textContent = t.s;
+  $("rwarn").textContent = t.w;
+  const sorted = order.map(k=>[k,score[k]||0]).sort((a,b)=>b[1]-a[1]);
+  const second = TYPES[sorted[1][0]];
+  $("rstat").textContent = "次高人格：" + second.n + "（" + second.t + "）· 32 题答完，" + (score[best]||0) + " 题指向这个人格。零食不分高低，对味的就是最好的。";
+  $("res").dataset.text = "我在「零食人格大揭秘」里测出了【" + t.n + "】："
+    + t.t + "。" + t.s + " 来测测你的零食人格 →";
+  window.scrollTo(0,0);
+}
+function copyRes(){
+  const text = $("res").dataset.text;
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(()=>alert("已复制，去评论区报零食吧 👀"));
+  }else{
+    const ta = document.createElement("textarea");
+    ta.value = text; document.body.appendChild(ta); ta.select();
+    document.execCommand("copy"); document.body.removeChild(ta);
+    alert("已复制，去评论区报零食吧 👀");
+  }
+}
+</script>
+</body>
+</html>
